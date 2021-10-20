@@ -33,6 +33,15 @@ booksRouter.post("/", (req, res) => {
   res.status(201).send({ id: newBook.id });
 });
 
+booksRouter.post("/checkEmail", (req, res) => {
+  const books = JSON.parse(fs.readFileSync(booksJSONPath));
+  if (books.filter((book) => book.email === req.body.email).length > 0) {
+    res.status(403).send({ success: false, data: "user already exist" });
+  } else {
+    res.status(201).send({ success: true });
+  }
+});
+
 booksRouter.get("/", (req, res) => {
   console.log(req.body);
 
